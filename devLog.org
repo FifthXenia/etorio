@@ -113,3 +113,13 @@ rm -R ~/.emacs.scratch/straight/repos/sokoban/
 
 
 - Need to eat some food....
+
+** 11:46
+#+begin_src emacs-lisp :tangle yes
+rm -R ~/.emacs.scratch/straight/ [[......]] build/sokoban/
+rm -R ~/.emacs.scratch/straight/repos/sokoban/
+#+end_src
+
+- In my emacs org-babel script, it did some tab-completion F-Shit, and put those ~[[...]]~ above, and delete my entire ~straight/repos~ directory. Now I need to reclone and rebuild all my damn packages.... waiting for that to occur. Atleast it wasn't anything like a ~sudo rm -rf~ error.
+
+  
