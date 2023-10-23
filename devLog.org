@@ -20,3 +20,17 @@
 *** Ideas:
 - Play ~10-21-23.wav~ at 0.42x, have speed increment up a notch each time you reach a point bracket. Stop at 1.00x. Display score also in text, and music modifier speed. Maybe also speed up belts as score hits a point.
   - Score based on amount of output, and production statically configured. Not related to speed. (So as it speeds up, your score does not go up. Speed is just an additional visual indicator of score, etc, relates to melody speed.)
+
+** 10:32
+
+*** ducpel does not render art:
+
+#+ATTR_ORG: :width 600
+[[file:.images/2023-10-23_10-32-58_screenshot.png]]
+
+*** But Sokoban does, so I will reference their code.
+
+#+ATTR_ORG: :width 600
+[[file:.images/2023-10-23_10-33-20_screenshot.png]]
+- https://github.com/leoliu/sokoban
+
