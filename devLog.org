@@ -123,3 +123,24 @@ rm -R ~/.emacs.scratch/straight/repos/sokoban/
 - In my emacs org-babel script, it did some tab-completion F-Shit, and put those ~[[...]]~ above, and delete my entire ~straight/repos~ directory. Now I need to reclone and rebuild all my damn packages.... waiting for that to occur. Atleast it wasn't anything like a ~sudo rm -rf~ error.
 
   
+** 16:32 Got some Wood, Iron (sokoban target), Copper added. But if cursor goes over, the copper dissapears, wood dissapears. Would like to do this myself.
+
+#+ATTR_ORG: :width 600
+[[file:.images/2023-10-23_16-32-58_screenshot.png]]
+
+- Found ~5x5.el~: https://www.masteringemacs.org/article/fun-games-in-emacs
+  - https://github.com/emacs-mirror/emacs/blob/master/lisp/play/5x5.el
+    - I see it draws the game with
+      - ~(erase-buffer)~
+      - Then: ~(insert (if (zerop x) "| " " ")~ to insert the characer
+    - Keybindings
+      - custom-mode-map
+    - Positions:
+      - a Grid
+      - Record x,y, position of cursor
+    - Manually reposition cursor
+      - go-to-char
+      - forward-line
+    - Switch to buffer
+      - (switch-to-buffer buffer-name)
+    - 
