@@ -34,3 +34,70 @@
 [[file:.images/2023-10-23_10-33-20_screenshot.png]]
 - https://github.com/leoliu/sokoban
 
+** 10:35: Goal 1, swap out character for some sort of selection cursor icon (so I can still see mostly the tile below)
+
+#+ATTR_ORG: :width 100
+[[file:.images/2023-10-23_10-36-11_screenshot.png]]
+- Something like this character looks nice in the game, maybe I can change it to a small triangle in each corner, and red. Let's investigate how this shape is being created.
+  - Created here: https://github.com/leoliu/sokoban/blob/master/sokoban.el#L151
+
+- Editing did not change anything on screen:
+#+begin_src emacs-lisp :tangle yes
+(defconst sokoban-target-xpm "\
+/* XPM */
+static char * target_xpm[] = {
+\"32 32 3 1\",
+\"  c None\",
+\". c black\",
+\"X c yellow\",
+\"                                \",
+\"                                \",
+\"                                \",
+\"                                \",
+\"                                \",
+\"                                \",
+\"          ............          \",
+\"          .XXXXX...XX.          \",
+\"           .XXXXXXXX.           \",
+\"            .XXXXXX.            \",
+\"      ..     .XXXX.     ..      \",
+\"      .X.     .XX.     .X.      \",
+\"      .XX.    XXXXX   .XX.      \",
+\"      .XXX.   XXXXXX .XXX.      \",
+\"      .XXXX.        .XXXX.      \",
+\"      .XXXXX.      .XXXXX.      \",
+\"      .XXXXX.      .XXXXX.      \",
+\"      .XXXX.        .XXXX.      \",
+\"      .XXX.          .XXX.      \",
+\"      .XX.     ..     .XX.      \",
+\"      .X.     .XX.     .X.      \",
+\"      ..     .XXXX.     ..      \",
+\"            .XXXXXX.            \",
+\"           .XXXXXXXX.           \",
+\"          .XXXXXXXXXX.          \",
+\"          ............          \",
+\"                                \",
+\"                                \",
+\"                                \",
+\"                                \",
+\"                                \",
+\"                                \",
+};
+")
+#+end_src
+
+
+Instead creating a fork, and loading my fork:
+
+#+begin_src emacs-lisp :tangle yes
+(use-package power-mode
+  :ensure t
+  :straight  (:host github :repo "leoliu/sokoban"  :fork (:host github :repo "fxkrait/sokoban" :branch "autumn-lisp-game-jam-2023")))
+#+end_src
+- https://github.com/fxkrait/sokoban/tree/autumn-lisp-game-jam-2023
+
+
+#+BEGIN_SRC sh
+rm ~/.emacs.scratch/straight/build/sokoban/
+rm ~/.emacs.scratch/straight/repos/sokoban/
+#+END_SRC
