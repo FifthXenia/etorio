@@ -90,14 +90,26 @@ static char * target_xpm[] = {
 Instead creating a fork, and loading my fork:
 
 #+begin_src emacs-lisp :tangle yes
-(use-package power-mode
-  :ensure t
+(use-package sokoban
+  :ensure 
   :straight  (:host github :repo "leoliu/sokoban"  :fork (:host github :repo "fxkrait/sokoban" :branch "autumn-lisp-game-jam-2023")))
 #+end_src
+
+#+RESULTS:
+
 - https://github.com/fxkrait/sokoban/tree/autumn-lisp-game-jam-2023
 
 
 #+BEGIN_SRC sh
-rm ~/.emacs.scratch/straight/build/sokoban/
-rm ~/.emacs.scratch/straight/repos/sokoban/
+rm -R ~/.emacs.scratch/straight/build/sokoban/
+rm -R ~/.emacs.scratch/straight/repos/sokoban/
 #+END_SRC
+
+
+#+ATTR_ORG: :width 200
+[[file:.images/2023-10-23_10-55-24_screenshot.png]]
+- Worked on restarting emacs, not sure how to hot-reload, without restart. Doesn't currently auto-update.
+
+
+
+- Need to eat some food....
