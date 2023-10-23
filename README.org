@@ -1,6 +1,7 @@
 * etorio
 
 Making a very basic factorio like game, inside emacs using elisp, in 6 days 11 hours, for the 10-day lisp game jam: https://itch.io/jam/autumn-lisp-game-jam-2023
+- I'm not too versed in elisp, nor emacs package creation, so we will see what I can come up with.
 
 
 #+ATTR_ORG: :width 600
