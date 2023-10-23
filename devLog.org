@@ -4,7 +4,7 @@
 - Can use elisp, can use artwork, from others.
 
 **** Resources to steal:
-- https://github.com/alezost/ducpel
+***** https://github.com/alezost/ducpel
   - Has decent pixel art glyphs, can use. Need to figuer out how they are drawing to screen. Looks like the create a new buffer for the game, and somehow draw to it.
 
 #+begin_src emacs-lisp :tangle yes
@@ -12,3 +12,7 @@
     (pop-to-buffer-same-window ducpel-buffer-name)
 #+end_src
 - https://github.com/alezost/ducpel/blob/master/ducpel.el#L1267C1-L1268C51
+
+
+***** https://spritely.institute/news/scheme-wireworld-in-browser.html
+- Has a somewhat factorio like belt-effect, draw pixels which is what I would be doing, can look at their guile code.
