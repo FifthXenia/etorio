@@ -1,0 +1,14 @@
+* etorio DevLog
+** 10-23-2023
+*** 10:02, decided to do game jam (T-06day:10hours:56minutes)
+- Can use elisp, can use artwork, from others.
+
+**** Resources to steal:
+- https://github.com/alezost/ducpel
+  - Has decent pixel art glyphs, can use. Need to figuer out how they are drawing to screen. Looks like the create a new buffer for the game, and somehow draw to it.
+
+#+begin_src emacs-lisp :tangle yes
+  (let ((buf (get-buffer ducpel-buffer-name)))
+    (pop-to-buffer-same-window ducpel-buffer-name)
+#+end_src
+- https://github.com/alezost/ducpel/blob/master/ducpel.el#L1267C1-L1268C51
