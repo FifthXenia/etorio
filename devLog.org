@@ -1,3 +1,7 @@
+* Entries included in this document:
+- [[https://github.com/FifthXenia/etorio/blob/main/devLog.org#10-23-23][10-23-23]]
+- [[https://github.com/FifthXenia/etorio/blob/main/devLog.org#10-24-23][10-24-23]]
+
 * 10-23-23
 
 ** xpm (display image, not just ascii)
