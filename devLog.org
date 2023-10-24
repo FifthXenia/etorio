@@ -129,3 +129,102 @@ XXXXXnewline
 I've got some stuff to parse the maps, but there's still a lot to do. I got to parse these maps, into 2D lists. But I need lists for resources, collisions, etc. Yeah... And I still need to figure out the graphics part.
 * 10-24-23
 - ... till tomorrow.
+** 13:07
+- OK, we're back, and we're going to do some stuff.
+  - Step 1): Manually draw some xpm images on a grid, and do a grid re-draw.
+** 13:45
+- I've got a decent live-reload environment for testing in org-babel with:
+
+  #+begin_src emacs-lisp :tangle yes
+(load "~/dev/git/fifthXenia/etorio/etorio.el")
+#+end_src
+- Then I can just call the functions in a scratch buffer.
+** 13:47
+#+begin_src emacs-lisp :tangle yes
+(progn (insert-image etorio-iron-xpm) (insert-image etorio-iron-xpm))
+#+end_src
+- Got mulitple images side by side, for grid, using ~progn~. I remember ~progn~, from needing it a while agon in an if statement to execute multiple things in an if block, because without progn lexical scoping, then one statement is true case, second is false, but progn allows you to bundle multiple statements for true case, or false case.
+
+#+ATTR_ORG: :width 200
+[[file:.images/2023-10-24_13-47-14_screenshot.png]]
+** 14:14 Have maps working
+
+- https://github.com/p3r7/awesome-elisp#maps
+  - https://www.gnu.org/software/emacs/manual/html_node/elisp/Property-Lists.html
+#+begin_src emacs-lisp :tangle yes
+(setq my-plist (list
+                'c "c-out"
+                'i "i-out"
+                'w "w-out"
+                '@ "@-out"
+                'b "b-out"))
+(plist-get my-plist (intern "c"))
+#+end_src
+
+#+RESULTS:
+#+begin_example
+c-out
+#+end_example
+
+- Will now create map for xpm images, and then insert images, and create entire map grid.
+** 15:19 It's fucking beautiful. Wow.
+
+
+#+ATTR_ORG: :width 400
+[[file:.images/2023-10-24_15-19-37_screenshot.png]]
+
+#+begin_src emacs-lisp :tangle yes
+
+(setq level1-map
+"###################
+#                 #
+#                 #
+#      i      cc  #
+#      i      cc  #
+#         ww      #
+#         ww    bb#
+#               bb#
+#          @    bb#
+#                 #
+###################")
+
+
+(defun map-length (map)
+  (length map)
+  )
+
+(defun display-map-as-images-test ()
+  (interactive)
+  (display-map-as-images level1-map)
+)
+
+(defun display-map-as-images (map)
+  (let ((x 1) (map-length-val (map-length map)))
+    (while (<= x map-length-val)
+      (setq map-symbol-name (substring level1-map (- x 1) x))
+      (setq map-symbol (intern map-symbol-name))
+      ;;(insert map-symbol-name)
+      (setq map-img (plist-get map-char-to-xpm-plist map-symbol))
+      (if (not (eq (mod x 20) 0))
+          ;; (insert "\n")
+          (if map-img
+              (insert-image map-img)
+              )
+          )
+      (if (eq (mod x 20) 0)
+          (insert "\n")
+          )
+      (setq x (1+ x))
+
+      )
+    )
+  )
+#+end_src
+
+
+
+Here's what it looks like with blank floor, but I like the pattern, so I'll add some sort of pattern likely:
+
+
+#+ATTR_ORG: :width 400
+[[file:.images/2023-10-24_15-22-41_screenshot.png]]

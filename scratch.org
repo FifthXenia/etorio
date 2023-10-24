@@ -1,0 +1,523 @@
+;; This buffer is for text that is not saved, and for Lisp evaluation.
+;; To create a file, visit it with <open> and enter text in its buffer.
+#+begin_src emacs-lisp :tangle yes
+(load "~/dev/git/fifthXenia/etorio/etorio.el")
+#+end_src
+
+#+RESULTS:
+#+begin_example
+t
+#+end_example
+
+
+
+#+BEGIN_SRC sh
+rm -R ~/.emacs.scratch/straight/build/etorio/
+rm -R ~/.emacs.scratch/straight/repos/etorio/
+cp -R ~/dev/git/fifthXenia/etorio/ ~/.emacs.scratch/straight/repos/etorio/
+
+#+END_SRC
+
+#+RESULTS:
+
+
+#+BEGIN_SRC sh
+rm -R ~/.emacs.scratch/straight/build/sokoban/
+rm -R ~/.emacs.scratch/straight/repos/sokoban/
+cp -R ~/dev/external/forks/sokoban ~/.emacs.scratch/straight/repos/sokoban/
+
+#+END_SRC
+
+#+RESULTS:
+
+e
+
+#+begin_src emacs-lisp :tangle yes
+(use-package sokoban
+  :ensure 
+  :straight  (:host github :repo "leoliu/sokoban"  :fork (:host github :repo "fxkrait/sokoban" :branch "autumn-lisp-game-jam-2023")))
+#+end_src
+
+
+#+begin_src emacs-lisp :tangle yes
+
+(defconst sokoban-target-xpm "\
+/* XPM */
+static char * target_xpm[] = {
+\"32 32 3 1\",
+\"  c None\",
+\". c black\",
+\"X c grey\",
+\"                                \",
+\"                                \",
+\"                                \",
+\"                                \",
+\"                                \",
+\"                                \",
+\"                                \",
+\"                                \",
+\"                                \",
+\"                                \",
+\"                                \",
+\"                                \",
+\"                                \",
+\"                                \",
+\"                                \",
+\"                                \",
+\"                                \",
+\"                                \",
+\"                                \",
+\"                                \",
+\"                                \",
+\"                                \",
+\"                                \",
+\"                                \",
+\"                                \",
+\"                                \",
+\"                                \",
+\"                                \",
+\"                                \",
+\"                                \",
+\"                                \",
+\"                                \",
+};
+")
+#+end_src
+
+#+begin_src emacs-lisp :tangle yes
+(defun game-sound-42x ()
+  (interactive)
+ (start-process "mplayer"  nil  "mplayer" "/home/greghab/dev/external/forks/sokoban/music/10-21-23.webm" "-loop" "0" "-speed" "0.42")
+)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+game-sound-42x
+#+end_example
+
+
+#+begin_src emacs-lisp :tangle yes
+(game-sound-42x)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+#<process mpv<2>>
+#+end_example
+
+
+#+begin_src emacs-lisp :tangle yes
+(async-start-process "mpv" "mpv" nil "/home/greghab/dev/external/forks/sokoban/music/10-21-23.webm")
+#+end_src
+
+#+RESULTS:
+#+begin_example
+#<process mpv<2>>
+#+end_example
+
+
+#+begin_src emacs-lisp :tangle yes
+(start-process "my-process" "foo"  "mplayer" "/home/greghab/dev/external/forks/sokoban/music/10-21-23.webm" "-loop" "0" "-speed" "0.42")
+#+end_src
+
+#+RESULTS:
+#+begin_example
+#<process my-process>
+#+end_example
+
+#+begin_src emacs-lisp :tangle yes
+(setq level1map
+"
+XXXXX
+X...X
+X...X
+XXXXX
+"
+)
+
+(drawGrid level1map)
+#+end_src
+
+
+#+begin_src emacs-lisp :tangle yes
+(insert level1map
+XXXXX
+X...X
+X...X
+XXXXX
+)
+#+end_src
+
+#+RESULTS:
+
+
+
+XXXXX
+X...X
+X...X
+XXXXX
+
+
+XXXXX
+X...X
+X...X
+XXXXX
+
+
+#+begin_src emacs-lisp :tangle yes
+(dolist (p '("a" "b" "c"))
+   (insert p))
+#+end_src
+
+#+RESULTS:
+
+
+#+begin_src emacs-lisp :tangle yes
+(setq level1-map
+"XXXXX
+X...X
+X...X
+X...X
+XXXXX"
+)
+;;;(setq level1-list (read-from-string level1-map))
+;;(level1-list)
+
+
+;; http://xahlee.info/emacs/emacs/elisp_string_functions.html
+(setq level1-length (length level1-map))
+(substring level1-map 0 2)
+
+(let ((x 1))
+  (while (<= x level1-length)
+    (insert (substring level1-map (- x 1) x))
+    (setq x (1+ x))
+    (if (eq (mod x 6) 0)
+        (insert "newline")
+    )
+  )
+)
+XXXXXnewline
+X...Xnewline
+X...Xnewline
+X...Xnewline
+XXXXXnewline
+
+
+#+end_src
+
+#+RESULTS:
+
+
+;; https://emacs.stackexchange.com/questions/45626/xpm-change-displayed-image-on-mouse-over-in-header-line-format
+
+#+begin_src emacs-lisp :tangle yes
+(setq
+ img1 '(image :type xpm :data "/* XPM */
+          static char * close_tab_xpm[] = {
+          \"14 11 3 1\",
+          \"       c None\",
+          \".      c #000000\",
+          \"+      c #FFFFFF\",
+          \"     .....    \",
+          \"    .......   \",
+          \"   .........  \",
+          \"  ...+...+... \",
+          \"  ....+.+.... \",
+          \"  .....+..... \",
+          \"  ....+.+.... \",
+          \"  ...+...+... \",
+          \"   .........  \",
+          \"    .......   \",
+          \"     .....    \"};"
+          :ascent center :mask (heuristic t) :margin 0))
+
+(insert-image img1)
+
+#+end_src
+
+#+RESULTS:
+| image | :type | xpm | :data | /* XPM */ |
+
+#+begin_src emacs-lisp :tangle yes
+(insert-image img1)
+
+#+end_src
+
+
+
+#+begin_src emacs-lisp :tangle yes
+(setq
+ img1 '(image :type xpm :data "/* XPM */
+ static char * target_xpm[] = {
+\"32 32 3 1\",
+\"  c None\",
+\". c black\",
+\"X c yellow\",
+\"                                \",
+\"                                \",
+\"                                \",
+\"                                \",
+\"                                \",
+\"                                \",
+\"          ............          \",
+\"          .XXXXXXXXXX.          \",
+\"           .XXXXXXXX.           \",
+\"            .XXXXXX.            \",
+\"      ..     .XXXX.     ..      \",
+\"      .X.     .XX.     .X.      \",
+\"      .XX.     ..     .XX.      \",
+\"      .XXX.          .XXX.      \",
+\"      .XXXX.        .XXXX.      \",
+\"      .XXXXX.      .XXXXX.      \",
+\"      .XXXXX.      .XXXXX.      \",
+\"      .XXXX.        .XXXX.      \",
+\"      .XXX.          .XXX.      \",
+\"      .XX.     ..     .XX.      \",
+\"      .X.     .XX.     .X.      \",
+\"      ..     .XXXX.     ..      \",
+\"            .XXXXXX.            \",
+\"           .XXXXXXXX.           \",
+\"          .XXXXXXXXXX.          \",
+\"          ............          \",
+\"                                \",
+\"                                \",
+\"                                \",
+\"                                \",
+\"                                \",
+\"                                \"};"
+          :ascent center :mask (heuristic t) :margin 0))
+
+#+end_src
+
+#+RESULTS:
+| image | :type | xpm | :data | /* XPM */ |
+
+#+begin_src emacs-lisp :tangle yes
+(insert-image img1)
+#+end_src
+ 
+
+
+* 10-24-23
+#+begin_src emacs-lisp :tangle yes
+(load "~/dev/git/fifthXenia/etorio/etorio.el")
+#+end_src
+
+#+RESULTS:
+#+begin_example
+t
+#+end_example
+
+#+begin_src emacs-lisp :tangle yes
+(insert-image etorio-iron-xpm)
+#+end_src
+
+#+begin_src emacs-lisp :tangle yes
+(progn (insert-image etorio-iron-xpm) (insert-image etorio-iron-xpm))
+#+end_src
+
+** map to vector
+
+#+begin_src emacs-lisp :tangle yes
+(insert-image etorio-ir on-xpm)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+t
+#+end_example
+
+
+#+begin_src emacs-lisp :tangle yes :exports both
+(let ((x 1))
+  (while (<= x level1-length)
+    (insert (substring level1-map (- x 1) x))
+    (setq x (1+ x))
+    (if (eq (mod x 20) 0)
+        (insert "newline")
+    )
+  )
+)
+#+end_src
+
+#+RESULTS:
+
+- https://github.com/p3r7/awesome-elisp#maps
+  - https://www.gnu.org/software/emacs/manual/html_node/elisp/Property-Lists.html
+
+ #+begin_src emacs-lisp :tangle yes
+(plist-get '(foo 4) 'foo)
+ #+end_src
+
+ #+RESULTS:
+ #+begin_example
+ 4
+ #+end_example
+
+ #+begin_src emacs-lisp :tangle yes
+ (setq my-plist (list 'bar t 'foo 4))
+(plist-get my-plist 'foo)
+
+ #+end_src
+
+ #+RESULTS:
+ #+begin_example
+ 4
+ #+end_example
+
+ #+begin_src emacs-lisp :tangle yes
+ (setq my-plist (list "bar" t "foo" 4))
+(plist-get my-plist "foo")
+ #+end_src
+
+
+#+begin_src emacs-lisp :tangle yes
+ (setq my-plist (list 'bar t 'foo 4))
+(plist-get my-plist (intern"foo")) ;; https://emacsredux.com/blog/2014/12/05/converting-between-symbols-and-strings/
+#+end_src
+
+
+ #+RESULTS:
+ #+begin_example
+ 4
+ #+end_example
+
+
+
+#+begin_src emacs-lisp :tangle yes
+(setq my-plist (list
+                'c "c-out"
+                'i "i-out"
+                'w "w-out"
+                '@ "@-out"
+                'b "b-out"))
+(plist-get my-plist (intern "c"))
+#+end_src
+
+#+RESULTS:
+#+begin_example
+c-out
+#+end_example
+
+#+begin_src emacs-lisp :tangle yes
+(setq my-plist (list "c" etorio-copper-xpm "i" etorio-iron-xpm "w" etorio-wood-xpm "@" etorio-player-xpm "b" etorio-belt-xpm))
+(plist-get my-plist "c")
+#+end_src
+
+#+RESULTS:
+
+
+
+
+#+RESULTS:
+| image | :type | xpm | :data | /* XPM */ |
+
+** Map to image
+
+#+begin_src emacs-lisp :tangle yes
+(load "~/dev/git/fifthXenia/etorio/etorio.el")
+#+end_src
+
+#+RESULTS:
+#+begin_example
+t
+#+end_example
+
+#+begin_src emacs-lisp :tangle yes
+(plist-get map-char-to-xpm-plist (intern "c"))
+#+end_src
+
+#+RESULTS:
+| image | :type | xpm | :data | /* XPM */ |
+
+#+begin_src emacs-lisp :tangle yes
+(map-length level1-map)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+219
+#+end_example
+
+
+#+begin_src emacs-lisp :tangle yes
+(display-map level1-map)
+#+end_src
+
+#+begin_src emacs-lisp :tangle yes
+(intern "
+")
+#+end_src
+
+#+RESULTS:
+#+begin_example
+\
+#+end_example
+
+#+begin_src emacs-lisp :tangle yes
+(symbol-name '\n)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+n
+#+end_example
+
+
+#+begin_src emacs-lisp :tangle yes
+(intern (substring " "))
+#+end_src
+
+#+RESULTS:
+#+begin_example
+\ 
+#+end_example
+
+###################
+
+#                 #
+
+#                 #
+
+#      i      cc  #
+
+#      i      cc  #
+
+#         ww      #
+
+#         ww    bb#
+
+#               bb#
+
+#          @    bb#
+
+#                 #
+
+###################
+
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+
+
+
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
