@@ -127,3 +127,5 @@ XXXXXnewline
 
 #+end_src
 I've got some stuff to parse the maps, but there's still a lot to do. I got to parse these maps, into 2D lists. But I need lists for resources, collisions, etc. Yeah... And I still need to figure out the graphics part.
+* 10-24-23
+- ... till tomorrow.
