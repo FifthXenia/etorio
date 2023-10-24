@@ -85,3 +85,41 @@ But we need to make it bigger:
 - 3: Stat Variables (resources, moves)
 
 ** 20:15 Haven't done much on this in a bit. I've been listening to Sacha Chua's emacs chat podcast (video), and this game is getting complicated, and I have this "frustrated" feeling. But we'll pick it up tomorrow. Going to push up all my shit.
+- I'm trying not to look at outside code too much. Figuring out the grid, and state management is going to suck, and it's going to be difficult.
+#+ATTR_ORG: :width 100
+[[file:.images/2023-10-23_20-19-09_screenshot.png]]
+
+#+begin_src emacs-lisp :tangle yes
+(setq level1-map
+"XXXXX
+X...X
+X...X
+X...X
+XXXXX"
+)
+;;;(setq level1-list (read-from-string level1-map))
+;;(level1-list)
+
+
+;; http://xahlee.info/emacs/emacs/elisp_string_functions.html
+(setq level1-length (length level1-map))
+(substring level1-map 0 2)
+
+(let ((x 1))
+  (while (<= x level1-length)
+    (insert (substring level1-map (- x 1) x))
+    (setq x (1+ x))
+    (if (eq (mod x 6) 0)
+        (insert "newline")
+    )
+  )
+)
+XXXXXnewline
+X...Xnewline
+X...Xnewline
+X...Xnewline
+XXXXXnewline
+
+
+#+end_src
+I've got some stuff to parse the maps, but there's still a lot to do. I got to parse these maps, into 2D lists. But I need lists for resources, collisions, etc. Yeah... And I still need to figure out the graphics part.
