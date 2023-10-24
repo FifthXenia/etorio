@@ -1,146 +1,87 @@
-* etorio DevLog
-** 10-23-2023
-*** 10:02, decided to do game jam (T-06day:10hours:56minutes)
-- Can use elisp, can use artwork, from others.
+* 10-23-23
 
-**** Resources to steal:
-***** https://github.com/alezost/ducpel
-  - Has decent pixel art glyphs, can use. Need to figuer out how they are drawing to screen. Looks like the create a new buffer for the game, and somehow draw to it.
-
-#+begin_src emacs-lisp :tangle yes
-  (let ((buf (get-buffer ducpel-buffer-name)))
-    (pop-to-buffer-same-window ducpel-buffer-name)
-#+end_src
-- https://github.com/alezost/ducpel/blob/master/ducpel.el#L1267C1-L1268C51
+** xpm (display image, not just ascii)
+- https://emacs.stackexchange.com/questions/18410/how-to-make-a-video-game-with-emacs
+  - ~'ve succeeded in doing so for a XPM Tetris. SVG allows you more freedom ultimately,~
+    - Saw https://github.com/leoliu/sokoban uses xpm (where I had originally saw it, pre-writing this from scratch), and https://github.com/wasamasa/retris from the stackexachge.
 
 
-***** https://spritely.institute/news/scheme-wireworld-in-browser.html
-- Has a somewhat factorio like belt-effect, draw pixels which is what I would be doing, can look at their guile code.
+From: https://emacs.stackexchange.com/questions/45626/xpm-change-displayed-image-on-mouse-over-in-header-line-format
 
-*** Ideas:
-- Play ~10-21-23.wav~ at 0.42x, have speed increment up a notch each time you reach a point bracket. Stop at 1.00x. Display score also in text, and music modifier speed. Maybe also speed up belts as score hits a point.
-  - Score based on amount of output, and production statically configured. Not related to speed. (So as it speeds up, your score does not go up. Speed is just an additional visual indicator of score, etc, relates to melody speed.)
-
-** 10:32
-
-*** ducpel does not render art:
-
-#+ATTR_ORG: :width 600
-[[file:.images/2023-10-23_10-32-58_screenshot.png]]
-
-*** But Sokoban does, so I will reference their code.
-
-#+ATTR_ORG: :width 600
-[[file:.images/2023-10-23_10-33-20_screenshot.png]]
-- https://github.com/leoliu/sokoban
-
-** 10:35: Goal 1, swap out character for some sort of selection cursor icon (so I can still see mostly the tile below)
-
-#+ATTR_ORG: :width 100
-[[file:.images/2023-10-23_10-36-11_screenshot.png]]
-- Something like this character looks nice in the game, maybe I can change it to a small triangle in each corner, and red. Let's investigate how this shape is being created.
-  - Created here: https://github.com/leoliu/sokoban/blob/master/sokoban.el#L151
-
-- Editing did not change anything on screen:
-#+begin_src emacs-lisp :tangle yes
-(defconst sokoban-target-xpm "\
-/* XPM */
-static char * target_xpm[] = {
-\"32 32 3 1\",
-\"  c None\",
-\". c black\",
-\"X c yellow\",
-\"                                \",
-\"                                \",
-\"                                \",
-\"                                \",
-\"                                \",
-\"                                \",
-\"          ............          \",
-\"          .XXXXX...XX.          \",
-\"           .XXXXXXXX.           \",
-\"            .XXXXXX.            \",
-\"      ..     .XXXX.     ..      \",
-\"      .X.     .XX.     .X.      \",
-\"      .XX.    XXXXX   .XX.      \",
-\"      .XXX.   XXXXXX .XXX.      \",
-\"      .XXXX.        .XXXX.      \",
-\"      .XXXXX.      .XXXXX.      \",
-\"      .XXXXX.      .XXXXX.      \",
-\"      .XXXX.        .XXXX.      \",
-\"      .XXX.          .XXX.      \",
-\"      .XX.     ..     .XX.      \",
-\"      .X.     .XX.     .X.      \",
-\"      ..     .XXXX.     ..      \",
-\"            .XXXXXX.            \",
-\"           .XXXXXXXX.           \",
-\"          .XXXXXXXXXX.          \",
-\"          ............          \",
-\"                                \",
-\"                                \",
-\"                                \",
-\"                                \",
-\"                                \",
-\"                                \",
-};
-")
-#+end_src
-
-
-Instead creating a fork, and loading my fork:
+This works:
 
 #+begin_src emacs-lisp :tangle yes
-(use-package sokoban
-  :ensure 
-  :straight  (:host github :repo "leoliu/sokoban"  :fork (:host github :repo "fxkrait/sokoban" :branch "autumn-lisp-game-jam-2023")))
+(setq
+ img1 '(image :type xpm :data "/* XPM */
+          static char * close_tab_xpm[] = {
+          \"14 11 3 1\",
+          \"       c None\",
+          \".      c #000000\",
+          \"+      c #FFFFFF\",
+          \"     .....    \",
+          \"    .......   \",
+          \"   .........  \",
+          \"  ...+...+... \",
+          \"  ....+.+.... \",
+          \"  .....+..... \",
+          \"  ....+.+.... \",
+          \"  ...+...+... \",
+          \"   .........  \",
+          \"    .......   \",
+          \"     .....    \"};"
+          :ascent center :mask (heuristic t) :margin 0))
 #+end_src
 
 #+RESULTS:
+| image | :type | xpm | :data | /* XPM */ |
 
-- https://github.com/fxkrait/sokoban/tree/autumn-lisp-game-jam-2023
+
+- https://www.gnu.org/software/emacs/manual/html_node/elisp/Showing-Images.html
+  - ~insert-image~ defined here.
+#+begin_src emacs-lisp :tangle yes
+(insert-image img1)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+t
+#+end_example
+ 
+#+ATTR_ORG: :width 300
+[[file:.images/2023-10-23_18-21-12_screenshot.png]]
+But we need to make it bigger:
 
 
-#+BEGIN_SRC sh
-rm -R ~/.emacs.scratch/straight/build/sokoban/
-rm -R ~/.emacs.scratch/straight/repos/sokoban/
-#+END_SRC
+#+begin_src emacs-lisp :tangle yes
+(insert-image img1 nil (list 1 1 10))
+#+end_src
+
+
+
+#+begin_src emacs-lisp :tangle yes
+ (list 1 1 10)
+#+end_src
+
+#+RESULTS:
+| 1 | 1 | 10 |
+
+
+#+begin_src emacs-lisp :tangle yes
+(insert-image img1 nil (list 1 1 1))
+#+end_src
+
+  Looked here:
+  - https://github.com/alezost/ducpel/blob/master/ducpel-glyphs.el
+  - And: https://github.com/leoliu/sokoban/blob/master/sokoban.el, they have bigger images, so let me try that.
 
 
 #+ATTR_ORG: :width 200
-[[file:.images/2023-10-23_10-55-24_screenshot.png]]
-- Worked on restarting emacs, not sure how to hot-reload, without restart. Doesn't currently auto-update.
+[[file:.images/2023-10-23_18-48-17_screenshot.png]]
+- Looks good, so we need larger canvas size, to make image appear larger. There is no enlarging.
 
+** Let me think about how to structure the data
+- 1: Resources 2d vector (coal, wood, copper, iron) - Only one resource element per location
+- 2: Collision 2D vector (walls, water, farms, mining)
+- 3: Stat Variables (resources, moves)
 
-
-- Need to eat some food....
-
-** 11:46
-#+begin_src emacs-lisp :tangle yes
-rm -R ~/.emacs.scratch/straight/ [[......]] build/sokoban/
-rm -R ~/.emacs.scratch/straight/repos/sokoban/
-#+end_src
-
-- In my emacs org-babel script, it did some tab-completion F-Shit, and put those ~[[...]]~ above, and delete my entire ~straight/repos~ directory. Now I need to reclone and rebuild all my damn packages.... waiting for that to occur. Atleast it wasn't anything like a ~sudo rm -rf~ error.
-
-  
-** 16:32 Got some Wood, Iron (sokoban target), Copper added. But if cursor goes over, the copper dissapears, wood dissapears. Would like to do this myself.
-
-#+ATTR_ORG: :width 600
-[[file:.images/2023-10-23_16-32-58_screenshot.png]]
-
-- Found ~5x5.el~: https://www.masteringemacs.org/article/fun-games-in-emacs
-  - https://github.com/emacs-mirror/emacs/blob/master/lisp/play/5x5.el
-    - I see it draws the game with
-      - ~(erase-buffer)~
-      - Then: ~(insert (if (zerop x) "| " " ")~ to insert the characer
-    - Keybindings
-      - custom-mode-map
-    - Positions:
-      - a Grid
-      - Record x,y, position of cursor
-    - Manually reposition cursor
-      - go-to-char
-      - forward-line
-    - Switch to buffer
-      - (switch-to-buffer buffer-name)
-    - 
+** 20:15 Haven't done much on this in a bit. I've been listening to Sacha Chua's emacs chat podcast (video), and this game is getting complicated, and I have this "frustrated" feeling. But we'll pick it up tomorrow. Going to push up all my shit.

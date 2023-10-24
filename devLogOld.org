@@ -1,0 +1,149 @@
+* etorio DevLog
+** 10-23-2023
+*** 10:02, decided to do game jam (T-06day:10hours:56minutes)
+- Can use elisp, can use artwork, from others.
+
+**** Resources to steal:
+***** https://github.com/alezost/ducpel
+  - Has decent pixel art glyphs, can use. Need to figuer out how they are drawing to screen. Looks like the create a new buffer for the game, and somehow draw to it.
+
+#+begin_src emacs-lisp :tangle yes
+  (let ((buf (get-buffer ducpel-buffer-name)))
+    (pop-to-buffer-same-window ducpel-buffer-name)
+#+end_src
+- https://github.com/alezost/ducpel/blob/master/ducpel.el#L1267C1-L1268C51
+
+
+***** https://spritely.institute/news/scheme-wireworld-in-browser.html
+- Has a somewhat factorio like belt-effect, draw pixels which is what I would be doing, can look at their guile code.
+
+*** Ideas:
+- Play ~10-21-23.wav~ at 0.42x, have speed increment up a notch each time you reach a point bracket. Stop at 1.00x. Display score also in text, and music modifier speed. Maybe also speed up belts as score hits a point.
+  - Score based on amount of output, and production statically configured. Not related to speed. (So as it speeds up, your score does not go up. Speed is just an additional visual indicator of score, etc, relates to melody speed.)
+
+** 10:32
+
+*** ducpel does not render art:
+
+#+ATTR_ORG: :width 600
+[[file:.images/2023-10-23_10-32-58_screenshot.png]]
+
+*** But Sokoban does, so I will reference their code.
+
+#+ATTR_ORG: :width 600
+[[file:.images/2023-10-23_10-33-20_screenshot.png]]
+- https://github.com/leoliu/sokoban
+
+** 10:35: Goal 1, swap out character for some sort of selection cursor icon (so I can still see mostly the tile below)
+
+#+ATTR_ORG: :width 100
+[[file:.images/2023-10-23_10-36-11_screenshot.png]]
+- Something like this character looks nice in the game, maybe I can change it to a small triangle in each corner, and red. Let's investigate how this shape is being created.
+  - Created here: https://github.com/leoliu/sokoban/blob/master/sokoban.el#L151
+
+- Editing did not change anything on screen:
+#+begin_src emacs-lisp :tangle yes
+(defconst sokoban-target-xpm "\
+/* XPM */
+static char * target_xpm[] = {
+\"32 32 3 1\",
+\"  c None\",
+\". c black\",
+\"X c yellow\",
+\"                                \",
+\"                                \",
+\"                                \",
+\"                                \",
+\"                                \",
+\"                                \",
+\"          ............          \",
+\"          .XXXXX...XX.          \",
+\"           .XXXXXXXX.           \",
+\"            .XXXXXX.            \",
+\"      ..     .XXXX.     ..      \",
+\"      .X.     .XX.     .X.      \",
+\"      .XX.    XXXXX   .XX.      \",
+\"      .XXX.   XXXXXX .XXX.      \",
+\"      .XXXX.        .XXXX.      \",
+\"      .XXXXX.      .XXXXX.      \",
+\"      .XXXXX.      .XXXXX.      \",
+\"      .XXXX.        .XXXX.      \",
+\"      .XXX.          .XXX.      \",
+\"      .XX.     ..     .XX.      \",
+\"      .X.     .XX.     .X.      \",
+\"      ..     .XXXX.     ..      \",
+\"            .XXXXXX.            \",
+\"           .XXXXXXXX.           \",
+\"          .XXXXXXXXXX.          \",
+\"          ............          \",
+\"                                \",
+\"                                \",
+\"                                \",
+\"                                \",
+\"                                \",
+\"                                \",
+};
+")
+#+end_src
+
+
+Instead creating a fork, and loading my fork:
+
+#+begin_src emacs-lisp :tangle yes
+(use-package sokoban
+  :ensure 
+  :straight  (:host github :repo "leoliu/sokoban"  :fork (:host github :repo "fxkrait/sokoban" :branch "autumn-lisp-game-jam-2023")))
+#+end_src
+
+#+RESULTS:
+
+- https://github.com/fxkrait/sokoban/tree/autumn-lisp-game-jam-2023
+
+
+#+BEGIN_SRC sh
+rm -R ~/.emacs.scratch/straight/build/sokoban/
+rm -R ~/.emacs.scratch/straight/repos/sokoban/
+#+END_SRC
+
+
+#+ATTR_ORG: :width 200
+[[file:.images/2023-10-23_10-55-24_screenshot.png]]
+- Worked on restarting emacs, not sure how to hot-reload, without restart. Doesn't currently auto-update.
+
+
+
+- Need to eat some food....
+
+** 11:46
+#+begin_src emacs-lisp :tangle yes
+rm -R ~/.emacs.scratch/straight/ [[......]] build/sokoban/
+rm -R ~/.emacs.scratch/straight/repos/sokoban/
+#+end_src
+
+- In my emacs org-babel script, it did some tab-completion F-Shit, and put those ~[[...]]~ above, and delete my entire ~straight/repos~ directory. Now I need to reclone and rebuild all my damn packages.... waiting for that to occur. Atleast it wasn't anything like a ~sudo rm -rf~ error.
+
+  
+** 16:32 Got some Wood, Iron (sokoban target), Copper added. But if cursor goes over, the copper dissapears, wood dissapears. Would like to do this myself.
+
+#+ATTR_ORG: :width 600
+[[file:.images/2023-10-23_16-32-58_screenshot.png]]
+
+- Found ~5x5.el~: https://www.masteringemacs.org/article/fun-games-in-emacs
+  - https://github.com/emacs-mirror/emacs/blob/master/lisp/play/5x5.el
+    - I see it draws the game with
+      - ~(erase-buffer)~
+      - Then: ~(insert (if (zerop x) "| " " ")~ to insert the characer
+    - Keybindings
+      - custom-mode-map
+    - Positions:
+      - a Grid
+      - Record x,y, position of cursor
+    - Manually reposition cursor
+      - go-to-char
+      - forward-line
+    - Switch to buffer
+      - (switch-to-buffer buffer-name)
+    - Block them from moving out of bounds?
+      - Keymap calls move functions (does not let you manually move the cursor, overrides this behavior)
+        - ~(define-key map [left]	'sokoban-move-left)~
+          - Moves off of (dx, dy)
