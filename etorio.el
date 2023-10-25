@@ -343,15 +343,44 @@ static char * target_xpm[] = {
  )
 
 
+(defun set-etorio-keybindings ()
+    (global-set-key (kbd "<left>") 'etorio-move-left)
+    (global-set-key (kbd "<right>") 'etorio-move-right)
+    (global-set-key (kbd "<up>") 'etorio-move-up)
+    (global-set-key (kbd "<down>") 'etorio-move-down)
+    (global-set-key (kbd "q") 'etorio-quit)
+
+    )
+
+
+(defun etorio-press-q ()
+ "q"
+  )
+
+(defun unset-etorio-keybindings ()
+    (global-set-key (kbd "<left>") 'backward-char)
+    (global-set-key (kbd "<right>") 'forward-char)
+    (global-set-key (kbd "<up>") 'previous-line)
+    (global-set-key (kbd "<down>") 'next-line)
+    (global-set-key (kbd "q") "q")
+
+  )
+
 (defun etorio-quit ()
   (interactive)
   (kill-etorio-sound)
+  (unset-etorio-keybindings)
+  (setq cursor-type 'bar)
   (kill-buffer "etorio"))
 
 (defun etorio ()
   (interactive)
   (switch-to-buffer "etorio")
+  ;; https://emacs.stackexchange.com/questions/18374/persistently-hide-cursor-evil-mode-problem
+  (setq cursor-type nil)
   (etorio-play-level1-sound-42x)
+  (set-etorio-keybindings)
+  (display-map-as-images-test)
   )
 
 ;; X = wall
@@ -409,6 +438,95 @@ XXXXX"
 
 (defun map-length (map)
   (length map)
+  )
+
+;; (0, 0) top left
+;; (32, 32) bottom right
+
+;; x is horizontal
+;;  1 = right
+;;  0 = no change
+;;  -1 = left
+
+;; y is vertical
+;;  1 = down
+;;  0 = no change
+;;  -1 = up
+
+;; https://stackoverflow.com/questions/14805167/defining-key-binding-with-arguments
+(defun etorio-move-left ()
+  (interactive)
+  (etorio-move -1 0)
+  )
+
+(defun etorio-move-right ()
+  (interactive)
+  (etorio-move 1 0)
+  )
+
+(defun etorio-move-up ()
+  (interactive)
+  (etorio-move 0 -1)
+  )
+
+(defun etorio-move-down ()
+  (interactive)
+  (etorio-move 0 1)
+  )
+
+(defun etorio-move (dx dy)
+  (if (eq dx -1)
+      (left-char)
+      )
+  
+ (if (eq dx 1)
+      (right-char)
+ )
+
+ (if (eq dy -1)
+     (previous-line)
+     ) 
+
+ (if (eq dy 1)
+     (next-line)
+     )
+)
+
+;; https://stackoverflow.com/questions/3115104/how-to-create-keybindings-for-a-custom-minor-mode-in-emacs
+(defvar etorio-mode-map
+  (let ((map (make-sparse-keymap)))
+    (set-keymap-parent map parent-mode-shared-map)
+    (define-key map (kbd "<left>") 'etorio-move-left)
+    (define-key map (kbd "<right>") 'etorio-move-right)
+    (define-key map (kbd "<up>") 'etorio-move-up)
+    (define-key map (kbd "<down>") 'etorio-move-down)
+    map)
+  )
+
+;; https://emacs.stackexchange.com/questions/5358/proper-way-to-enable-minor-mode
+(add-hook 'etorio-mode-hook #'etorio-mode)
+
+;; https://systemcrafters.net/learning-emacs-lisp/creating-minor-modes/
+(add-to-list 'minor-mode-alist '(etorio-basic-mode "*etorio*"))
+(add-to-list 'minor-mode-map-alist (cons 'etorio-mode etorio-mode-map))
+
+
+  ;;(use-local-map etorio-mode-map)
+
+  
+;; (defvar etorio-mode-map
+;;   (let ((map (make-keymap)))
+;;     (define-key map "left" (etorio-move 1 0))
+;;     (define-key map "right" (etorio-move -1 0))
+;;     (define-key map "up" (etorio-move 0 1))
+;;     (define-key map "don" (etorio-move 0 -1))
+;;     map)
+;;   "Keymap for etorio major mode")
+
+(defun display-map-updates-test ()
+  (interactive)
+  (display-map-as-images level1-map)
+  (display-map-as-images level2-map)
   )
 
 (defun display-map-as-images-test ()

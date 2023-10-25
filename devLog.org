@@ -228,3 +228,19 @@ Here's what it looks like with blank floor, but I like the pattern, so I'll add 
 
 #+ATTR_ORG: :width 400
 [[file:.images/2023-10-24_15-22-41_screenshot.png]]
+** 15:25 Let's start working on a mode map, to move within the map
+- bind left,right, up, down, keys
+** 16:39 I thought more about the storage, we can do:
+- 1: Resources 2d vector (coal, wood, copper, iron) - Only one resource element per location
+  - *Store this as strings.*
+- 2: Collision 2D vector (walls, water, farms, mining)
+  - *Store this as strings.*
+- 3: Stat Variables (resources, moves)
+
+
+
+- Maybe we can do plist, where key is tuple of (x,y).
+** Tomorrow Todo:
+- 1) Get mode-map keybindings working
+- 2) Get collisions working.
+- 3) Get pushing things around working.

@@ -521,3 +521,94 @@ n
                    
                    
                    
+
+
+
+
+#+begin_src emacs-lisp :tangle yes
+(eq 0 0)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+t
+#+end_example
+
+
+
+;; rigged movement
+#+begin_src emacs-lisp :tangle yes
+    (global-set-key (kbd "<left>") 'etorio-move-right)
+    (global-set-key (kbd "<right>") 'etorio-move-left)
+    (global-set-key (kbd "<up>") 'etorio-move-down)
+    (global-set-key (kbd "<down>") 'etorio-move-up)
+
+#+end_src
+
+#+RESULTS:
+#+begin_example
+etorio-move-up
+#+end_example
+
+#+begin_src emacs-lisp :tangle yes
+    (global-set-key (kbd "<left>") 'backward-char)
+    (global-set-key (kbd "<right>") 'forward-char)
+    (global-set-key (kbd "<up>") 'previous-line)
+    (global-set-key (kbd "<down>") 'next-line)
+
+#+end_src
+
+#+RESULTS:
+#+begin_example
+next-line
+#+end_example
+
+#+begin_src emacs-lisp :tangle yes
+  (if (eq -1 -1)
+      (left-char)
+      )
+#+end_src
+
+#+RESULTS:
+
+
+#+begin_src emacs-lisp :tangle yes
+(etorio-move-left)
+(etorio-move-right)
+(etorio-move-up)
+(etorio-move-down)
+
+#+end_src
+
+#+RESULTS:
+
+
+#+begin_src emacs-lisp :tangle yes
+    (global-set-key (kbd "<left>") 'etorio-move-left)
+    (global-set-key (kbd "<right>") 'etorio-move-right)
+    (global-set-key (kbd "<up>") 'etorio-move-up)
+    (global-set-key (kbd "<down>") 'etorio-move-down)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+etorio-move-down
+#+end_example
+
+
+#+begin_src emacs-lisp :tangle yes
+    (global-set-key (kbd "<left>") 'etorio-press-q)
+q
+#+end_src
+
+#+RESULTS:
+'
+
+
+#+begin_src emacs-lisp :tangle yes
+(global-unset-key "q")
+#+end_src
+
+#+RESULTS:
+
+
