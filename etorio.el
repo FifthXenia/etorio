@@ -319,10 +319,17 @@ static char * target_xpm[] = {
 ;; elisp code
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(setq straight-path "/home/greghab/dev/git/fifthXenia/etorio/music/")
+(setq general-path "/home/greghab/dev/git/fifthXenia/etorio/music/")
+
+
+;; (defcustom etorio-level1-sound (when load-file-name
+;;                                      (concat (file-name-directory load-file-name)
+                                            ;; "../../repos/etorio/music/10-21-23.webm"))
+
+
 ;; path is valid for straight.el
-(defcustom etorio-level1-sound (when load-file-name
-                                      (concat (file-name-directory load-file-name)
-                                              "../../repos/etorio/music/10-21-23.webm"))
+(defcustom etorio-level1-sound (when load-file-name "/home/greghab/dev/git/fifthXenia/etorio/music/10-21-23.webm")
   "The path to a sound file that´s to be played when a timeblock has started."
   :group 'etorio
   :type 'file)
@@ -337,50 +344,51 @@ static char * target_xpm[] = {
  (start-process "mplayer"  nil  "mplayer" etorio-level1-sound "-loop" "0" "-speed" "0.42")
  )
 
-(defun kill-etorio-sound ()
+(defun etorio-kill-sound ()
   (interactive)
- (start-process "killall"  nil  "killall" "killall" "mplayer")
+  (start-process "killall"  nil  "killall" "killall" "mplayer")
  )
 
 
-(defun set-etorio-keybindings ()
-    (global-set-key (kbd "<left>") 'etorio-move-left)
-    (global-set-key (kbd "<right>") 'etorio-move-right)
-    (global-set-key (kbd "<up>") 'etorio-move-up)
-    (global-set-key (kbd "<down>") 'etorio-move-down)
-    (global-set-key (kbd "q") 'etorio-quit)
+;; (defun set-etorio-keybindings ()
+;;     (global-set-key (kbd "<left>") 'etorio-move-left)
+;;     (global-set-key (kbd "<right>") 'etorio-move-right)
+;;     (global-set-key (kbd "<up>") 'etorio-move-up)
+;;     (global-set-key (kbd "<down>") 'etorio-move-down)
+;;     (global-set-key (kbd "q") 'etorio-quit)
 
-    )
+;;     )
 
 
-(defun etorio-press-q ()
- "q"
-  )
+;; (defun etorio-press-q ()
+;;  "q"
+;;   )
 
-(defun unset-etorio-keybindings ()
-    (global-set-key (kbd "<left>") 'backward-char)
-    (global-set-key (kbd "<right>") 'forward-char)
-    (global-set-key (kbd "<up>") 'previous-line)
-    (global-set-key (kbd "<down>") 'next-line)
-    (global-set-key (kbd "q") "q")
+;; (defun unset-etorio-keybindings ()
+;;     (global-set-key (kbd "<left>") 'backward-char)
+;;     (global-set-key (kbd "<right>") 'forward-char)
+;;     (global-set-key (kbd "<up>") 'previous-line)
+;;     (global-set-key (kbd "<down>") 'next-line)
+;;     (global-set-key (kbd "q") "q")
 
-  )
+;;   )
 
 (defun etorio-quit ()
   (interactive)
-  (kill-etorio-sound)
-  (unset-etorio-keybindings)
+  (etorio-kill-sound)
+  ;;(unset-etorio-keybindings)
   (setq cursor-type 'bar)
-  (kill-buffer "etorio"))
+  (kill-buffer "*etorio*"))
 
 (defun etorio ()
   (interactive)
-  (switch-to-buffer "etorio")
+  (switch-to-buffer "*etorio*")
   ;; https://emacs.stackexchange.com/questions/18374/persistently-hide-cursor-evil-mode-problem
-  (setq cursor-type nil)
+  ;;(setq cursor-type nil)
   (etorio-play-level1-sound-42x)
-  (set-etorio-keybindings)
+  ;;(set-etorio-keybindings)
   (display-map-as-images-test)
+  (etorio-mode 1)
   )
 
 ;; X = wall
@@ -493,22 +501,38 @@ XXXXX"
 )
 
 ;; https://stackoverflow.com/questions/3115104/how-to-create-keybindings-for-a-custom-minor-mode-in-emacs
+;; https://github.com/clojure-emacs/clojure-mode/blob/master/clojure-mode.el
 (defvar etorio-mode-map
   (let ((map (make-sparse-keymap)))
-    (set-keymap-parent map parent-mode-shared-map)
+    ;;(set-keymap-parent map org-mode-map)
     (define-key map (kbd "<left>") 'etorio-move-left)
     (define-key map (kbd "<right>") 'etorio-move-right)
     (define-key map (kbd "<up>") 'etorio-move-up)
     (define-key map (kbd "<down>") 'etorio-move-down)
+    (define-key map (kbd "q") 'etorio-quit)
+    (define-key map (kbd "s") 'etorio-kill-sound)
     map)
   )
 
+;; https://stackoverflow.com/questions/19308390/how-to-define-keymap-for-minor-mode-correctly
+ (define-minor-mode etorio-mode
+   "blabla"
+   :keymap etorio-mode-map
+   )
+
+;;(use-local-map etorio-mode-map)
+
+;; https://stackoverflow.com/questions/19308390/how-to-define-keymap-for-minor-mode-correctly
+;; (define-minor-mode etorio-mode
+;;   "blabla"
+;;   nil nil nil
+;;   )
 ;; https://emacs.stackexchange.com/questions/5358/proper-way-to-enable-minor-mode
-(add-hook 'etorio-mode-hook #'etorio-mode)
+;; (add-hook 'etorio-mode-hook #'etorio-mode)
 
 ;; https://systemcrafters.net/learning-emacs-lisp/creating-minor-modes/
-(add-to-list 'minor-mode-alist '(etorio-basic-mode "*etorio*"))
-(add-to-list 'minor-mode-map-alist (cons 'etorio-mode etorio-mode-map))
+;;(add-to-list 'minor-mode-alist '(etorio-basic-mode "*etorio*"))
+;;(add-to-list 'minor-mode-map-alist (cons 'etorio-mode etorio-mode-map))
 
 
   ;;(use-local-map etorio-mode-map)
@@ -574,6 +598,50 @@ XXXXX"
       (if (eq (mod x 20) 0)
           (insert "\n")
           )
+      )
+    )
+  )
+
+(setq map-plist (list 'a 1 ))
+
+
+(defun parse-map-to-resources-and-collisions (map)
+  (let ((x 0) (map-length-val (map-length map)))
+    (while (< x map-length-val)
+      ;; if not newline at end of string for map, which we want to skip
+     ;; (if (not(eq (mod x 19) 0))
+          (setq map-symbol-name (substring level1-map x (+ x 1)))
+        (setq map-symbol (intern map-symbol-name))
+        (setq y (/ x 19))
+        ;; http://xahlee.info/emacs/emacs/elisp_symbol_plist.html
+        ;; (put 'map-plist (intern (concat (number-to-string x) "," (number-to-string y) )) map-symbol-name)
+
+        ;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Plist-Access.html
+        (setq map-plist (plist-put map-plist
+                                   (intern (concat (number-to-string (mod x 19)) "," (number-to-string y)))
+                                   map-symbol-name))
+
+       ;; )
+
+      (setq x (1+ x))
+      )
+    )
+  )
+
+(defun parse-map-to-resources-and-collisions-old (map)
+  (let ((x 1) (map-length-val (map-length map)))
+    (while (<= x map-length-val)
+      (setq map-symbol-name (substring level1-map (- x 1) x))
+      (setq map-symbol (intern map-symbol-name))
+      (setq y (/ x 20))
+      ;; http://xahlee.info/emacs/emacs/elisp_symbol_plist.html
+      ;; (put 'map-plist (intern (concat (number-to-string x) "," (number-to-string y) )) map-symbol-name)
+
+      ;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Plist-Access.html
+      (setq map-plist (plist-put map-plist
+                                 (intern (concat (number-to-string (mod x 20)) "," (number-to-string y)))
+                                 map-symbol-name))
+      (setq x (1+ x))
       )
     )
   )
