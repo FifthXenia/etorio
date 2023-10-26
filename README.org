@@ -9,3 +9,8 @@ Making a very basic sokoban factorio game, inside emacs using elisp, in 6 days 1
 
 
 [[file:devLog.org][Developer Log]]
+
+
+
+#+ATTR_ORG: :width 400
+[[file:.images/2023-10-24_15-19-37_screenshot.png]]
