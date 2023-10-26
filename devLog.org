@@ -255,7 +255,7 @@ Here's what it looks like with blank floor, but I like the pattern, so I'll add 
 - 2) Get collisions working (restricting movement)
 - 3) Get pushing things around working (and use collisions).
 ** 16:10 Starting to work on 1)
-** 18:17 map parsing to map partially working, need to debug a bit further. Will look further into this. 4 days left. I think I can probably get something assembled by then.
+** 18:17 map parsing to map partially working, need to debug a bit further. Will look further into this tomorrow. 4 days left. I think I can probably get something assembled by then.
 
 #+begin_src emacs-lisp :tangle yes
 (setq map-plist (list 'a 1 ))
