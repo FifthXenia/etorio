@@ -268,6 +268,7 @@ Here's what it looks like with blank floor, but I like the pattern, so I'll add 
 - 3) Get pushing things around working (and use collisions).
 ** 16:10 Starting to work on 1)
 ** 18:17 map parsing to map partially working, need to debug a bit further. Will look further into this tomorrow. 4 days left. I think I can probably get something assembled by then.
+- (Had gotten the minor mode keyboard mapping working a bit earlier. Sound working, but using hardcode url in live-reload scratch pad. Need to probably figure out a way to update the path to something others can use, as I'm using my system path currently, which won't work for others.)
 
 #+begin_src emacs-lisp :tangle yes
 (setq map-plist (list 'a 1 ))
