@@ -321,6 +321,12 @@ Here's what it looks like with blank floor, but I like the pattern, so I'll add 
 #+end_src
 * 10-26-23:
 ** todo
+- 0) Make buffer read-only
+  - src: ~Writing Games with Emacs~ video
+#+ATTR_ORG: :width 200
+[[file:.images/2023-10-25_19-08-34_screenshot.png]]
+
+    
 - 1) Get collisions working (restricting movement)
   - 1a) (Complete map parsing into collision map from yesterday)
   - 1b) Modify ~etorio-move-left/right/up/down~ functions, to check collision map to allow cursor to move or not.
