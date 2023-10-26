@@ -178,6 +178,18 @@ c-out
 [[file:.images/2023-10-24_15-19-37_screenshot.png]]
 
 #+begin_src emacs-lisp :tangle yes
+;; map char in map (represented as a 'symbol) to it's corresponding xpm image
+(setq map-char-to-xpm-plist (list
+                'c etorio-copper-xpm
+                'i etorio-iron-xpm
+                'w etorio-wood-xpm
+                '@ etorio-player-xpm
+                'b etorio-belt-xpm
+                '\  etorio-floor-xpm
+                '\\  etorio-player-xpm
+                '\# etorio-wall-xpm
+                '\n etorio-player-xpm))
+
 
 (setq level1-map
 "###################
