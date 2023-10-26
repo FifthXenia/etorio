@@ -9,7 +9,7 @@ Making a very basic sokoban factorio game, inside emacs using elisp, in 6 days 1
 
 
 [[file:devLog.org][Developer Log]]
-
+- [[file:scratch.org][daily scratch pad]]
 
 
 #+ATTR_ORG: :width 400
