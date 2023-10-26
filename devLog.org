@@ -307,8 +307,12 @@ Here's what it looks like with blank floor, but I like the pattern, so I'll add 
 
 #+end_src
 * 10-26-23:
+** todo
 - 1) Get collisions working (restricting movement)
   - 1a) (Complete map parsing into collision map from yesterday)
   - 1b) Modify ~etorio-move-left/right/up/down~ functions, to check collision map to allow cursor to move or not.
     - If collision, stay in same cursor spot, else allow cursor to move in the inputted direction.
 - 2) Get pushing things around working (and use collisions).
+* 10-27-23:
+** todo
+- 1) get scoring system working
