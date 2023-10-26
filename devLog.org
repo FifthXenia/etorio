@@ -1,7 +1,11 @@
 * Entries included in this document:
 - [[https://github.com/FifthXenia/etorio/blob/main/devLog.org#10-23-23][10-23-23]]
 - [[https://github.com/FifthXenia/etorio/blob/main/devLog.org#10-24-23][10-24-23]]
-
+- [[https://github.com/FifthXenia/etorio/blob/main/devLog.org#10-25-23][10-25-23]]
+- [[https://github.com/FifthXenia/etorio/blob/main/devLog.org#10-26-23][10-26-23]]
+- [[https://github.com/FifthXenia/etorio/blob/main/devLog.org#10-27-23][10-27-23]]
+- [[https://github.com/FifthXenia/etorio/blob/main/devLog.org#10-28-23][10-28-23]]
+- [[https://github.com/FifthXenia/etorio/blob/main/devLog.org#10-29-23][10-29-23]]
 * 10-23-23
 
 ** xpm (display image, not just ascii)
