@@ -10,7 +10,8 @@ Making a very basic sokoban factorio game, inside emacs using elisp, within the 
 
 [[file:devLog.org][Developer Log]]
 - [[file:scratch.org][daily scratch pad]]
-
+- ~Some progress made, but left the game jam, and will complete the game later, when I feel interested in it again.~
+  - Has maps and graphics, but needs collisions, movement, scoring. So needs a bit more.
 
 #+ATTR_ORG: :width 400
 [[file:.images/2023-10-24_15-19-37_screenshot.png]]

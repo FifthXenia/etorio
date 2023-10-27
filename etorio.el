@@ -389,6 +389,9 @@ static char * target_xpm[] = {
   ;;(set-etorio-keybindings)
   (display-map-as-images-test)
   (etorio-mode 1)
+  (view-mode 1) ;; https://stackoverflow.com/questions/5154309/how-to-make-a-opened-buffer-read-only-without-reloading-again-with-find-file-re
+  ;;(buffer-read-only t)
+  ;;(inhibit-read-only t)
   )
 
 ;; X = wall
@@ -430,6 +433,10 @@ XXXXX"
 #          @    bb#
 #                 #
 ###################")
+
+;; Dimensions:
+;; x: 19 (20 characters with extra space)
+;; y: 11
 
 (setq level1-map
 "###################
@@ -605,7 +612,76 @@ XXXXX"
 (setq map-plist (list 'a 1 ))
 
 
+
+;; x = 19 (skip)
+;; - then x = 
+
 (defun parse-map-to-resources-and-collisions (map)
+  (let ((x 0) (map-length-val (map-length map)))
+    (while (< x map-length-val)
+
+      (setq xReal (- x (/ x 20)))
+      
+      ;; if not newline at end of string for map, which we want to skip
+      (if (not(eq (mod xReal 19) 0))
+      ;;(if (not (eq x 19)) ;; space character at end, that I don't want to parse.
+          (progn
+          
+      (setq map-symbol-name (substring level1-map xReal (+ xReal 1)))
+      (setq map-symbol (intern map-symbol-name))
+      (setq y (/ xReal 19))
+        ;; http://xahlee.info/emacs/emacs/elisp_symbol_plist.html
+        ;; (put 'map-plist (intern (concat (number-to-string x) "," (number-to-string y) )) map-symbol-name)
+
+        ;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Plist-Access.html
+        (setq map-plist (plist-put map-plist
+                                   (intern (concat (number-to-string (mod xReal 19)) "," (number-to-string y)))
+                                   map-symbol-name))
+
+        )
+
+          )
+
+      (setq x (1+ x))
+      )
+    )
+  )
+
+
+(defun parse-map-to-resources-and-collisions-indexes (map)
+  (let ((x 0) (map-length-val (map-length map)))
+    (while (< x map-length-val)
+
+      (setq xReal (- x (/ x 20)))
+      
+      ;; if not newline at end of string for map, which we want to skip
+      (if (not(eq (mod xReal 19) 0))
+      ;;(if (not (eq x 19)) ;; space character at end, that I don't want to parse.
+          (progn
+          
+      (setq map-symbol-name (substring level1-map xReal (+ xReal 1)))
+      (setq map-symbol (intern map-symbol-name))
+      (setq y (/ xReal 19))
+        ;; http://xahlee.info/emacs/emacs/elisp_symbol_plist.html
+        ;; (put 'map-plist (intern (concat (number-to-string x) "," (number-to-string y) )) map-symbol-name)
+
+        ;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Plist-Access.html
+        (setq map-plist (plist-put map-plist
+                                   (intern (concat (number-to-string (mod xReal 19)) "," (number-to-string y)))
+                                   map-symbol-name))
+
+        )
+
+          )
+
+      (setq x (1+ x))
+      )
+    )
+  )
+
+
+
+(defun parse-map-to-resources-and-collisions-old-v2 (map)
   (let ((x 0) (map-length-val (map-length map)))
     (while (< x map-length-val)
       ;; if not newline at end of string for map, which we want to skip

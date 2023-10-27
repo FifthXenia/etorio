@@ -321,7 +321,7 @@ Here's what it looks like with blank floor, but I like the pattern, so I'll add 
 #+end_src
 * 10-26-23:
 ** todo
-- [ ] 0) Make buffer read-only
+- [X] 0) Make buffer read-only
   - src: ~Writing Games with Emacs~ video
 #+ATTR_ORG: :width 200
 [[file:.images/2023-10-25_19-08-34_screenshot.png]]    
@@ -331,6 +331,34 @@ Here's what it looks like with blank floor, but I like the pattern, so I'll add 
     - If collision, stay in same cursor spot, else allow cursor to move in the inputted direction.
 - [ ] 2) Get pushing things around working (and use collisions).
   - [ ] 3) (stretch goal) Get resources working (score), and displayed on screen, or in modeline
+** 19:07 Starting to do some work on this. It's dark outside, and rather late, but I wan't to get something done.
+- Only 3 days left, I think getting some momentum going before I go to sleep, is crucial to me completing this game.
+  - It's still far from complete, and if I let off the gas, I mostly have 2 days left to finish it (excl Sunday last minute changes).
+** 19:08 Listening to Caves of Qud soundtrack, it's pretty neat. Nice ambient music. Let's make the buffer read only, and tackle ~0~.
+- Pomodoro engaded in my timeblock file, let's go.
+** 19:15 read-only buffer done
+#+begin_src emacs-lisp :tangle yes
+  (view-mode 1) ;; https://stackoverflow.com/questions/5154309/how-to-make-a-opened-buffer-read-only-without-reloading-again-with-find-file-re
+#+end_src
+- Used view-mode, as inhibit-read-only and bufufer-read-only didn't do anything. It seems to work. My minor-mode keybindings are overwritten by view-mode.
+** 19:17 Let's work on collisions. Step 1a) get the collision parsing  to collision map working.
+** 19:52 Still having issues getting map to parse correctly.
+- Going to just print the raw (x,y) of string, to maps (x,y), to make sure the parsing logic is indexing correctly.
+  - output is not correct, and with this extra blank character every 20 characters, it's just getting confusing.
+- I need to simplify, and get the indexing correct. If indexes are correct, then the map output should be correct.
+- ~(point)~ is 1-20, then 21-40, with extra spaces at end.
+  - So if it's 1-based, then maybe I should change my map parser to 1-based.
+    - So then I need something that goes from point location (raw vertical x), it x on row.
 * 10-27-23:
 ** todo
 - 1) get scoring system working
+
+
+** I'm going to pull out of the game jam. I'll finish this thing later, at some point, when I'm feeling like working on it more. Right now, I want to absorb more content, and clear some stuff out, simplify things, see what I'm interested in. Explore a bit. I'm not too interested in this game at the moment. 
+
+#+ATTR_ORG: :width 600
+[[file:.images/2023-10-27_13-00-08_screenshot.png]]
+
+#+ATTR_ORG: :width 600
+[[file:.images/2023-10-27_13-02-30_screenshot.png]]
+- I left, down to 43. Till I work on this again.
