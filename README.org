@@ -12,6 +12,7 @@ Making a very basic sokoban factorio game, inside emacs using elisp, within the 
 - [[file:scratch.org][daily scratch pad]]
 - ~Some progress made, but left the game jam, and will complete the game later, when I feel interested in it again.~
   - Has maps and graphics, but needs collisions, movement, scoring. So needs a bit more.
+    - (When I pick this up again, watch the ~Writing Games with Emacs~, as it has good notes on indexing rows and columns: 1 - ~line-number-at-pos~ for rows, ~current-column~ for cols.)
 
 #+ATTR_ORG: :width 400
 [[file:.images/2023-10-24_15-19-37_screenshot.png]]
