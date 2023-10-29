@@ -796,7 +796,7 @@ dump-plist
 (modify-testvar test-var)
 (print test-var)
 #+end_src
-
+o
 #+RESULTS:
 #+begin_example
 4
